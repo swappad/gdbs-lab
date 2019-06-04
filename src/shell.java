@@ -113,7 +113,7 @@ class shell {
 
         moveIO(subargs);
 
-        if (!iterator.hasNext() || !(new File(args.get(0))).canExecute()) {
+        if (!iterator.hasNext()) {
             if (infd != -1 && dup2(infd, STDIN_FILENO) == -1) {
                 System.err.println("pipe does not work1");
             }
@@ -121,6 +121,10 @@ class shell {
             checkandexec(subargs);
 
             exit(0);
+        } else if (!(new File(args.get(0))).canExecute()) {
+            System.err.println(args.get(0) + " is not an executable file!");
+            exit(0);
+
         } else {
             // fork
             int[] fildes = new int[2];
